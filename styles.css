@@ -1,31 +1,7 @@
-/*
- * styles.css — Perpustakaan Digital
- * ====================================
- * File CSS utama yang mengatur seluruh tampilan visual aplikasi.
- * Tema: Hitam & Emas (Premium Dark Library)
- *
- * Struktur file:
- *   1. CSS Variables & Reset
- *   2. Body & Background
- *   3. Header
- *   4. Main Container
- *   5. Controls (Filter & Sort)
- *   6. Books Grid
- *   7. Book Card
- *   8. Modal
- *   9. Footer
- *  10. Animasi
- *  11. Responsive Design
- *  12. Scrollbar & Utilities
- */
-
 /* ===== 1. CSS Variables & Reset ===== */
 /*
- * CSS Variables (custom properties) memungkinkan kita mendefinisikan nilai
  * warna, ukuran, dll. sekali saja di :root, lalu dipakai ulang di seluruh file.
- * Ini memudahkan perubahan tema — cukup ganti di sini, seluruh tampilan berubah.
- */
-/* ✨ Tema: Hitam & Emas — Premium Dark Library ✨ */
+*/
 :root {
     /* Colors — Gold & Black Luxury */
     --gold-primary: #C9A84C;
@@ -62,10 +38,6 @@
     --genre-sci-fi: #7B9FE0;
     --genre-history: #E08B4A;
 
-    /* === Spacing (Jarak/Padding/Margin) ===
-     * Menggunakan satuan rem agar ukuran relatif terhadap font-size root.
-     * xs = extra small, sm = small, md = medium, lg = large, xl = extra large
-     */
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
     --spacing-md: 1rem;
@@ -74,29 +46,17 @@
     --spacing-2xl: 3rem;
     --spacing-3xl: 4rem;
 
-    /* === Border Radius (Sudut Melengkung Elemen) ===
-     * Semakin besar nilainya, semakin bulat sudut elementnya.
-     */
     --radius-sm: 8px;
     --radius-md: 14px;
     --radius-lg: 20px;
     --radius-xl: 28px;
 
-    /* === Transitions (Animasi Perpindahan) ===
-     * Menggunakan cubic-bezier agar animasi terasa natural (tidak kaku).
-     * transition-spring: efek 'memantul' untuk interaksi yang lebih hidup.
-     */
     --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-normal: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-spring: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* ===== Reset CSS =====
- * Menghapus margin dan padding default browser (setiap browser punya default berbeda).
- * box-sizing: border-box → padding & border dihitung di DALAM ukuran elemen,
- * bukan di luar. Ini membuat layout lebih mudah diprediksi.
- */
 * {
     margin: 0;
     padding: 0;
@@ -104,19 +64,12 @@
     box-sizing: border-box;
 }
 
-/* scroll-behavior: smooth → saat ada link #anchor, halaman bergerak halus, bukan langsung loncat */
 html {
     scroll-behavior: smooth;
 }
 
-/* ===== 2. Body =====
- * Mengatur tampilan dasar seluruh halaman: font, warna latar, dan ukuran minimum.
- * overflow-x: hidden → mencegah scroll horizontal yang tidak diinginkan.
- */
+/* ===== 1. Body ===== */
 body {
-    /* Font Inter dari Google Fonts sebagai font utama;
-     * -apple-system & BlinkMacSystemFont sebagai fallback untuk Mac/iOS;
-     * sans-serif sebagai fallback terakhir */
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg-primary);
     color: var(--text-primary);
@@ -125,11 +78,7 @@ body {
     overflow-x: hidden;
 }
 
-/* ===== Background Ambient Glow (Efek Cahaya Latar) =====
- * Menggunakan pseudo-element ::before untuk membuat cahaya emas yang bersinar
- * di latar belakang tanpa mengganggu konten (pointer-events: none & z-index: -1).
- * Animasi membuatnya bergerak perlahan (20 detik) — memberikan kesan hidup.
- */
+/* ===== Background Ambient Glow ===== */
 body::before {
     content: '';
     position: fixed;
@@ -160,7 +109,7 @@ body::before {
     }
 }
 
-/* ===== 3. Header =====
+/* ===== 2. Header =====
  * Bagian paling atas halaman berisi logo dan tagline.
  * Menggunakan gradient gelap dari hitam murni ke hitam keemasan.
  * Position: relative diperlukan agar elemen ::before (overlay) bekerja dengan benar.
@@ -215,7 +164,7 @@ body::before {
     z-index: 1;
 }
 
-/* .logo → flexbox untuk menempatkan ikon dan teks judul berdampingan secara horizontal */
+/* untuk menempatkan ikon dan teks judul berdampingan secara horizontal */
 .logo {
     display: flex;
     align-items: center;
@@ -224,7 +173,6 @@ body::before {
     margin-bottom: var(--spacing-sm);
 }
 
-/* .logo-icon → ikon emoji buku yang mengambang (animasi float) dengan efek glow emas */
 .logo-icon {
     font-size: 2.8rem;
     animation: float 4s ease-in-out infinite;
@@ -268,10 +216,9 @@ body::before {
     text-transform: uppercase;
 }
 
-/* ===== 4. Main Container =====
- * Wrapper utama konten halaman.
+/* ===== 3. Main Container =====
  * max-width membatasi lebar agar tidak terlalu lebar di monitor besar.
- * margin: 0 auto → otomatis rata tengah secara horizontal.
+ * margin: 0 auto otomatis rata tengah secara horizontal.
  */
 .main-container {
     max-width: 1440px;
@@ -279,15 +226,14 @@ body::before {
     padding: var(--spacing-2xl) var(--spacing-xl);
 }
 
-/* ===== 5. Controls Section (Filter & Sort) =====
+/* ===== 4. Controls Section (Filter & Sort) =====
  * Area berisi dropdown filter genre dan sort, serta info jumlah buku.
- * Menggunakan glassmorphism effect: backdrop-filter blur + background transparan.
  */
 .controls-section {
     margin-bottom: var(--spacing-2xl);
 }
 
-/* .controls-wrapper → flexbox dengan wrap agar dropdown bisa turun ke baris baru di layar kecil */
+/* .controls-wrapper agar dropdown bisa turun ke baris baru di layar kecil */
 .controls-wrapper {
     display: flex;
     flex-wrap: wrap;
@@ -324,10 +270,6 @@ body::before {
     font-size: 1rem;
 }
 
-/* Styling dropdown (select):
- * appearance: none → menghapus tampilan default browser agar bisa kustom
- * background-image → ikon panah bawah kustom berbentuk SVG
- */
 .control-group select {
     width: 100%;
     padding: var(--spacing-md) var(--spacing-md);
@@ -376,11 +318,7 @@ body::before {
     font-weight: 800;
 }
 
-/* ===== 6. Books Grid =====
- * Layout grid responsif untuk menampilkan kartu-kartu buku.
- * auto-fill + minmax(300px, 1fr) → otomatis menyesuaikan jumlah kolom
- * berdasarkan lebar layar, minimum 300px per kartu.
- */
+/* ===== 5. Books Grid ===== */
 .books-section {
     margin-bottom: var(--spacing-2xl);
 }
@@ -391,9 +329,7 @@ body::before {
     gap: var(--spacing-xl);
 }
 
-/* ===== 7. Book Card =====
- * Kartu individual untuk setiap buku.
- * Menggunakan transition spring untuk efek hover yang terasa memantul.
+/* ===== 6. Book Card =====
  * position: relative diperlukan agar elemen absolute di dalamnya bisa diposisikan.
  */
 .book-card {
@@ -406,8 +342,6 @@ body::before {
     position: relative;
 }
 
-/* ::before pada kartu → overlay gradasi halus yang muncul saat hover
- * Menggunakan opacity: 0 → 1 agar transisi mulus */
 .book-card::before {
     content: '';
     position: absolute;
@@ -423,7 +357,6 @@ body::before {
     z-index: 0;
 }
 
-/* Efek hover kartu: naik sedikit ke atas + membesar sedikit + shadow emas */
 .book-card:hover {
     transform: translateY(-10px) scale(1.02);
     box-shadow:
@@ -437,9 +370,6 @@ body::before {
     opacity: 1;
 }
 
-/* .book-cover → area gambar sampul buku
- * Menggunakan position: relative sebagai 'wadah' untuk elemen-elemen yang di-absolute (badge genre, rating, gambar)
- */
 .book-cover {
     height: 280px;
     display: flex;
@@ -450,8 +380,6 @@ body::before {
     background: linear-gradient(145deg, rgb(63, 63, 68) 0%, rgb(42, 42, 45) 100%);
 }
 
-/* ::before pada cover → overlay warna genre (Fiction/Self-Help/Sci-Fi/History)
- * diterapkan di atas background gelap agar warna genre terlihat */
 .book-cover::before {
     content: '';
     position: absolute;
@@ -463,26 +391,20 @@ body::before {
     z-index: 0;
 }
 
-/* Warna cover berbeda-beda berdasarkan atribut data-genre pada kartu buku.
- * Selector [data-genre="..."] menargetkan kartu berdasarkan genre-nya. */
 .book-card[data-genre="Fiction"] .book-cover::before {
     background: linear-gradient(135deg, #C9A84C 0%, #E07BB5 100%);
-    /* Emas → Pink */
 }
 
 .book-card[data-genre="Self-Help"] .book-cover::before {
     background: linear-gradient(135deg, #C9A84C 0%, #5BC8AF 100%);
-    /* Emas → Teal */
 }
 
 .book-card[data-genre="Sci-Fi"] .book-cover::before {
     background: linear-gradient(135deg, #C9A84C 0%, #7B9FE0 100%);
-    /* Emas → Biru */
 }
 
 .book-card[data-genre="History"] .book-cover::before {
     background: linear-gradient(135deg, #C9A84C 0%, #E08B4A 100%);
-    /* Emas → Oranye */
 }
 
 .cover-icon {
@@ -494,9 +416,6 @@ body::before {
     justify-content: center;
 }
 
-/* .cover-image-bg → gambar yang sama namun diblur & diperbesar
- * Tujuannya untuk mengisi area kosong di sisi kiri/kanan gambar utama
- * sehingga tidak terlihat background hitam */
 .cover-image-bg {
     width: 100%;
     height: 100%;
@@ -510,8 +429,7 @@ body::before {
     transform: scale(1.15);
 }
 
-/* .cover-image → gambar buku utama yang tampil jelas (tidak blur)
- * object-fit: contain → gambar proporsional, tidak terpotong */
+
 .cover-image {
     width: 100%;
     height: 100%;
@@ -527,8 +445,6 @@ body::before {
     transform: scale(1.05);
 }
 
-/* .book-genre → badge/label genre di pojok kiri atas cover
- * position: absolute relatif terhadap .book-cover (yang position: relative) */
 .book-genre {
     position: absolute;
     top: var(--spacing-md);
@@ -564,8 +480,6 @@ body::before {
     color: #0A0A0A;
 }
 
-/* .book-rating → badge rating di pojok kanan atas cover
- * backdrop-filter: blur → efek frosted glass di belakang badge */
 .book-rating {
     position: absolute;
     top: var(--spacing-md);
@@ -584,15 +498,12 @@ body::before {
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* .book-info → area teks di bawah gambar cover (judul, penulis, harga, dll) */
 .book-info {
     padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-xl);
     position: relative;
     z-index: 1;
 }
 
-/* Judul buku: dibatasi maksimal 2 baris dengan line-clamp
- * Jika judul terlalu panjang, akan dipotong dan diberi '...' */
 .book-title {
     font-size: 1.1rem;
     font-weight: 700;
@@ -627,7 +538,6 @@ body::before {
     gap: var(--spacing-xs);
 }
 
-/* Harga buku: teks bergradasi emas menggunakan background-clip: text */
 .book-price {
     font-size: 1.25rem;
     font-weight: 800;
@@ -637,8 +547,6 @@ body::before {
     background-clip: text;
 }
 
-/* .view-detail → tombol 'Lihat Detail' di bawah kartu buku
- * Berubah menjadi tombol emas saat kartu di-hover */
 .view-detail {
     display: flex;
     align-items: center;
@@ -658,7 +566,6 @@ body::before {
     letter-spacing: 0.3px;
 }
 
-/* Panah → pada tombol 'Lihat Detail': bergeser ke kanan saat di-hover */
 .view-detail .arrow {
     transition: transform var(--transition-fast);
     display: inline-block;
@@ -676,9 +583,7 @@ body::before {
     transform: translateX(4px);
 }
 
-/* ===== 8. Modal (Pop-up Detail Buku) =====
- * .modal-overlay → latar gelap yang menutupi seluruh halaman saat modal terbuka
- * opacity: 0 + visibility: hidden → tersembunyi secara default
+/* ===== 7. Modal (Pop-up Detail Buku) =====
  * Class 'active' ditambahkan oleh JS untuk menampilkannya
  */
 .modal-overlay {
@@ -705,9 +610,6 @@ body::before {
     visibility: visible;
 }
 
-/* .modal → kotak dialog utama
- * transform: scale(0.92) translateY(30px) → posisi awal (tersembunyi/mengecil)
- * Saat class 'active' ditambahkan, CSS transition menganimasikannya ke scale(1) */
 .modal {
     background: #111108;
     border-radius: var(--radius-xl);
@@ -728,8 +630,6 @@ body::before {
     transform: scale(1) translateY(0);
 }
 
-/* Tombol tutup modal (×): posisi absolute di pojok kanan atas modal
- * Berputar 90 derajat saat di-hover untuk efek visual yang menarik */
 .modal-close {
     position: absolute;
     top: var(--spacing-lg);
@@ -769,7 +669,6 @@ body::before {
     margin-bottom: var(--spacing-xl);
 }
 
-/* Modal Cover - matches card image display */
 .modal-cover {
     width: 200px;
     height: 280px;
@@ -918,10 +817,7 @@ body::before {
     border: 1px solid var(--border-color);
 }
 
-/* ===== 9. Footer =====
- * Bagian bawah halaman berisi info hak cipta.
- * border-top sebagai pemisah visual dengan konten di atasnya.
- */
+/* ===== 10. Footer ===== */
 .footer {
     text-align: center;
     padding: var(--spacing-2xl) var(--spacing-xl);
@@ -931,10 +827,7 @@ body::before {
     letter-spacing: 0.3px;
 }
 
-/* ===== 10. Animasi =====
- * fadeInUp → kartu buku muncul dari bawah sambil fade in saat pertama kali dimuat.
- * Setiap kartu punya animation-delay berbeda agar muncul berurutan (staggered).
- */
+/* ===== 11. Animasi ===== */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -947,15 +840,11 @@ body::before {
     }
 }
 
-/* Semua kartu dimulai dengan opacity: 0 (tidak terlihat),
- * lalu animasi fadeInUp membuatnya muncul secara bertahap */
 .book-card {
     animation: fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     opacity: 0;
 }
 
-/* Delay animasi per kartu: kartu ke-1 langsung muncul, kartu ke-2 tunggu 60ms, dst.
- * Efek ini disebut 'staggered animation' — memberi kesan kartu muncul satu per satu */
 .book-card:nth-child(1) {
     animation-delay: 0ms;
 }
@@ -997,9 +886,8 @@ body::before {
 }
 
 /* ===== 11. Responsive Design =====
- * Media queries mengubah tampilan agar nyaman di berbagai ukuran layar.
- * max-width: 768px → tablet / HP (layar medium ke bawah)
- * max-width: 480px → HP kecil
+ * max-width: 768px tablet / HP (layar medium ke bawah)
+ * max-width: 480px HP kecil
  */
 @media (max-width: 768px) {
     .header {
@@ -1099,8 +987,7 @@ body::before {
 }
 
 /* ===== 12. Scrollbar Styling =====
- * Mengkustomisasi tampilan scrollbar di browser berbasis WebKit (Chrome, Edge, Safari).
- * Membuat scrollbar tipis (6px) dengan warna emas agar sesuai tema.
+ * Membuat scrollbar tipis (6px)
  */
 ::-webkit-scrollbar {
     width: 6px;
@@ -1144,7 +1031,6 @@ body::before {
 
 /* ===== Selection =====
  * Mengubah warna highlight teks saat pengguna menyeleksi teks di halaman.
- * Warna emas agar konsisten dengan tema.
  */
 ::selection {
     background: rgba(201, 168, 76, 0.35);
